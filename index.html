@@ -534,6 +534,73 @@
     .reveal:nth-child(2) { transition-delay: .1s; }
     .reveal:nth-child(3) { transition-delay: .2s; }
 
+    /* ─── ANIMATIONS ─── */
+
+    /* Keyframes */
+    @keyframes fadeUp   { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes fadeIn   { from{opacity:0} to{opacity:1} }
+    @keyframes lineGrow { from{width:0} to{width:32px} }
+    @keyframes lineGrowFull { from{width:0;opacity:0} to{width:100%;opacity:1} }
+    @keyframes panelIn  { from{clip-path:polygon(12% 0,12% 0,12% 100%,0% 100%)} to{clip-path:polygon(12% 0,100% 0,100% 100%,0% 100%)} }
+    @keyframes scaleUp  { from{opacity:0;transform:scale(.95)} to{opacity:1;transform:scale(1)} }
+    @keyframes slideLeft{ from{opacity:0;transform:translateX(40px)} to{opacity:1;transform:translateX(0)} }
+    @keyframes redPulse { 0%,100%{box-shadow:0 0 0 0 rgba(227,6,19,0)} 50%{box-shadow:0 0 0 8px rgba(227,6,19,0)} }
+
+    /* Hero entrance (triggered on load) */
+    .hero-anim-kicker { opacity:0; animation: fadeIn .6s ease .3s forwards; }
+    .hero-anim-line   { width:0;   animation: lineGrow .5s ease .5s forwards; }
+    .hero-anim-h1     { opacity:0; animation: fadeUp .8s ease .55s forwards; }
+    .hero-anim-sub    { opacity:0; animation: fadeUp .7s ease .85s forwards; }
+    .hero-anim-btns   { opacity:0; animation: fadeUp .7s ease 1.05s forwards; }
+    .hero-anim-panel  { animation: panelIn 1.1s cubic-bezier(.22,1,.36,1) .2s both; }
+    .hero-anim-scroll { opacity:0; animation: fadeIn .6s ease 1.4s forwards; }
+    .hero-anim-dots   { opacity:0; animation: fadeIn .6s ease 1.5s forwards; }
+
+    /* Staggered grid reveals */
+    .stagger-grid > * { opacity:0; transform:translateY(32px); transition:opacity .65s ease, transform .65s ease; }
+    .stagger-grid.visible > *:nth-child(1) { opacity:1;transform:none;transition-delay:0s; }
+    .stagger-grid.visible > *:nth-child(2) { opacity:1;transform:none;transition-delay:.13s; }
+    .stagger-grid.visible > *:nth-child(3) { opacity:1;transform:none;transition-delay:.26s; }
+    .stagger-grid.visible > *:nth-child(4) { opacity:1;transform:none;transition-delay:.39s; }
+
+    /* Section kicker line draw */
+    .section-kicker-line { width:0; transition: width .5s ease; }
+    .kicker-visible .section-kicker-line { width:24px; }
+
+    /* Stats entrance */
+    .stat-item { opacity:0; transform:translateY(20px); transition:opacity .5s ease, transform .5s ease; }
+    .stat-item.stat-visible { opacity:1; transform:none; }
+
+    /* Location cards slide */
+    .location-card { opacity:0; transform:translateY(28px); transition:opacity .6s ease,transform .6s ease,background .3s; }
+    .location-card.loc-visible { opacity:1; transform:none; }
+    .locations-grid .location-card:nth-child(1).loc-visible { transition-delay:0s; }
+    .locations-grid .location-card:nth-child(2).loc-visible { transition-delay:.14s; }
+    .locations-grid .location-card:nth-child(3).loc-visible { transition-delay:.28s; }
+
+    /* USP items */
+    .usp-item { opacity:0; transform:translateY(16px); transition:opacity .5s ease,transform .5s ease,background .2s; }
+    .usp-item.usp-visible { opacity:1; transform:none; }
+    .usps-inner .usp-item:nth-child(1).usp-visible { transition-delay:0s; }
+    .usps-inner .usp-item:nth-child(2).usp-visible { transition-delay:.1s; }
+    .usps-inner .usp-item:nth-child(3).usp-visible { transition-delay:.2s; }
+    .usps-inner .usp-item:nth-child(4).usp-visible { transition-delay:.3s; }
+
+    /* About image reveal */
+    .about-img-wrap { overflow:hidden; }
+    .about-img { transition:transform 1.2s cubic-bezier(.22,1,.36,1), opacity .8s ease; transform:scale(1.06); opacity:.4; }
+    .about-img.img-visible { transform:scale(1); opacity:.8; }
+
+    /* Service card red dot on num badge */
+    .service-num { transition:background .3s,color .3s; }
+    .service-card:hover .service-num { background:var(--red); color:var(--white); }
+
+    /* CTA section pulse on button */
+    .btn-dark:focus { animation:redPulse .6s ease; }
+
+    /* Parallax (set by JS) */
+    .hero-img-panel img { will-change: transform; }
+
     /* ─── RESPONSIVE ─── */
     @media(max-width: 1024px) {
       .hdr-nav { display: none; }
@@ -611,38 +678,38 @@
 <section id="hero">
   <div class="hero-red-bar"></div>
 
-  <div class="hero-img-panel" id="heroPanel">
+  <div class="hero-img-panel hero-anim-panel" id="heroPanel">
     <img src="assets/hero.jpg" alt="Teca Bau – Handwerk" id="heroImg">
     <div class="hero-img-grad"></div>
   </div>
 
   <div class="hero-content">
-    <div class="hero-kicker">
-      <div class="hero-kicker-line"></div>
+    <div class="hero-kicker hero-anim-kicker">
+      <div class="hero-kicker-line hero-anim-line"></div>
       <span class="hero-kicker-text">Bau fürs Leben</span>
     </div>
-    <h1 class="hero-h1">
+    <h1 class="hero-h1 hero-anim-h1">
       Ihr Fachbetrieb<br>
       für <em>Küchendesign,</em><br>
       Türtechnik &amp;<br>
       Innenausbau
     </h1>
-    <p class="hero-sub">
+    <p class="hero-sub hero-anim-sub">
       Massgeschneiderte Lösungen für Ihr Zuhause und Ihr Gewerbe –
       an drei Standorten in der Schweiz.
     </p>
-    <div class="hero-btns">
+    <div class="hero-btns hero-anim-btns">
       <a class="btn-red" href="#kontakt">Offerte anfragen</a>
       <a class="btn-outline-w" href="#services">Dienstleistungen</a>
     </div>
   </div>
 
-  <div class="hero-scroll">
+  <div class="hero-scroll hero-anim-scroll">
     <div class="hero-scroll-line"></div>
     <span>Entdecken</span>
   </div>
 
-  <div class="hero-dots">
+  <div class="hero-dots hero-anim-dots">
     <div class="hero-dot active"></div>
     <div class="hero-dot"></div>
     <div class="hero-dot"></div>
@@ -707,7 +774,7 @@
       <p class="section-sub">Von der ersten Idee bis zur schlüsselfertigen Übergabe – mit Präzision und Leidenschaft.</p>
     </div>
   </div>
-  <div class="services-grid reveal">
+  <div class="services-grid stagger-grid">
 
     <div class="service-card">
       <div class="service-img-wrap">
@@ -1078,28 +1145,78 @@
 
 
 <script>
-  // Header
+  /* ── Header ── */
   const hdr = document.getElementById('hdr');
   window.addEventListener('scroll', () => hdr.classList.toggle('solid', scrollY > 60), { passive: true });
 
-  // Hero image load
+  /* ── Hero image ── */
   const heroImg = document.getElementById('heroImg');
   if (heroImg.complete) heroImg.classList.add('loaded');
   else heroImg.addEventListener('load', () => heroImg.classList.add('loaded'));
 
-  // Mobile nav
+  /* ── Parallax on hero image ── */
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY;
+    const panel = document.getElementById('heroPanel');
+    if (panel && y < window.innerHeight * 1.2) {
+      heroImg.style.transform = `scale(1) translateY(${y * 0.18}px)`;
+    }
+  }, { passive: true });
+
+  /* ── Mobile nav ── */
   const burger = document.getElementById('burger');
   const mobNav = document.getElementById('mobNav');
   burger.addEventListener('click', () => mobNav.classList.toggle('open'));
   mobNav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mobNav.classList.remove('open')));
 
-  // Reveal on scroll
+  /* ── Generic reveal ── */
   const revObs = new IntersectionObserver(entries => {
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revObs.unobserve(e.target); } });
-  }, { threshold: 0.1 });
+  }, { threshold: 0.08 });
   document.querySelectorAll('.reveal').forEach(el => revObs.observe(el));
 
-  // Counter
+  /* ── Staggered grid reveal ── */
+  const sgObs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); sgObs.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.stagger-grid').forEach(el => sgObs.observe(el));
+
+  /* ── Kicker line draw on scroll ── */
+  const kickObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.closest('.section-kicker')?.classList.add('kicker-visible');
+        kickObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 1 });
+  document.querySelectorAll('.section-kicker-line').forEach(el => kickObs.observe(el));
+
+  /* ── USP items stagger ── */
+  const uspObs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('usp-visible'); uspObs.unobserve(e.target); } });
+  }, { threshold: 0.2 });
+  document.querySelectorAll('.usp-item').forEach(el => uspObs.observe(el));
+
+  /* ── Stat items ── */
+  const statObs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('stat-visible'); statObs.unobserve(e.target); } });
+  }, { threshold: 0.2 });
+  document.querySelectorAll('.stat-item').forEach(el => statObs.observe(el));
+
+  /* ── Location cards ── */
+  const locObs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('loc-visible'); locObs.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.location-card').forEach(el => locObs.observe(el));
+
+  /* ── About image ── */
+  const imgObs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('img-visible'); imgObs.unobserve(e.target); } });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.about-img').forEach(el => imgObs.observe(el));
+
+  /* ── Counter animation ── */
   const cntObs = new IntersectionObserver(entries => {
     entries.forEach(e => {
       if (!e.isIntersecting) return;
@@ -1107,11 +1224,11 @@
       const target = +el.dataset.target;
       const suffix = el.dataset.suffix || '';
       let start = null;
-      const dur = 1600;
+      const dur = 1800;
       const step = ts => {
         if (!start) start = ts;
         const p = Math.min((ts - start) / dur, 1);
-        const eased = 1 - Math.pow(1 - p, 3);
+        const eased = 1 - Math.pow(1 - p, 4);
         el.textContent = Math.floor(eased * target) + suffix;
         if (p < 1) requestAnimationFrame(step);
       };
@@ -1121,7 +1238,7 @@
   }, { threshold: 0.5 });
   document.querySelectorAll('[data-target]').forEach(el => cntObs.observe(el));
 
-  // Smooth scroll
+  /* ── Smooth scroll ── */
   document.querySelectorAll('a[href^="#"]').forEach(a => {
     a.addEventListener('click', e => {
       const t = document.querySelector(a.getAttribute('href'));
@@ -1129,7 +1246,7 @@
     });
   });
 
-  // Form
+  /* ── Contact form ── */
   function submitForm(e) {
     e.preventDefault();
     const btn = e.target.querySelector('.form-submit');
@@ -1139,7 +1256,7 @@
       e.target.querySelectorAll('input,textarea,select,button').forEach(f => f.disabled = true);
       document.getElementById('formSuccess').style.display = 'block';
       btn.style.display = 'none';
-    }, 800);
+    }, 900);
   }
 </script>
 
