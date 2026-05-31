@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teca Bau GmbH – Swiss Minimal Design Variante</title>
+  <meta name="description" content="Teca Bau GmbH: Fachbetrieb für Küchendesign, Zutritts- &amp; Türentechnik sowie Innenausbau. Standorte in Lausen (BL), Steinhausen (ZG) und Rain (LU).">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --red:      #E30613;
+      --red-dark: #B8000B;
+      --red-bg:   #FEF2F2;
+      --white:    #FFFFFF;
+      --bg:       #FFFFFF;
+      --bg2:      #F8F8F8;
+      --bg3:      #F2F2F2;
+      --dark:     #1A1A1A;
+      --dark2:    #2D2D2D;
+      --text:     #1A1A1A;
+      --text2:    #6B7280;
+      --text3:    #9CA3AF;
+      --border:   #E5E7EB;
+      --border2:  #D1D5DB;
+      --font-h:   'Barlow Condensed', sans-serif;
+      --font-b:   'Inter', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font-b); color: var(--text); background: var(--bg); overflow-x: hidden; }
+    a { text-decoration: none; color: inherit; }
+    img { display: block; }
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg2); }
+    ::-webkit-scrollbar-thumb { background: var(--red); border-radius: 2px; }
+
+    /* ─── DESIGN SWITCHER ─── */
+    .switcher {
+      position: fixed; bottom: 28px; right: 28px; z-index: 9999;
+      background: var(--dark); color: var(--white);
+      padding: 10px 18px; border-radius: 4px;
+      font-size: 12px; font-weight: 600; letter-spacing: .06em;
+      text-transform: uppercase; cursor: pointer;
+      display: flex; align-items: center; gap: 8px;
+      box-shadow: 0 4px 20px rgba(0,0,0,.2);
+      transition: background .2s;
+    }
+    .switcher:hover { background: var(--red); }
+    .switcher-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--red); }
+    .switcher:hover .switcher-dot { background: var(--white); }
+
+    /* ─── HEADER ─── */
+    #hdr {
+      position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+      height: 68px; background: rgba(255,255,255,.96);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      transition: box-shadow .3s;
+    }
+    #hdr.solid { box-shadow: 0 2px 20px rgba(0,0,0,.06); }
+    .hdr-inner {
+      max-width: 1320px; margin: 0 auto; height: 100%;
+      display: flex; align-items: center; padding: 0 40px; gap: 48px;
+    }
+    .hdr-logo img { height: 30px; width: auto; }
+    .hdr-divider { width: 1px; height: 28px; background: var(--border); flex-shrink: 0; }
+    .hdr-nav { display: flex; gap: 32px; }
+    .hdr-nav a {
+      font-size: 13px; font-weight: 500; color: var(--text2);
+      letter-spacing: .02em; position: relative; padding-bottom: 2px;
+      transition: color .2s;
+    }
+    .hdr-nav a::after {
+      content: ''; position: absolute; left: 0; bottom: -2px;
+      width: 0; height: 1.5px; background: var(--red);
+      transition: width .25s ease;
+    }
+    .hdr-nav a:hover { color: var(--text); }
+    .hdr-nav a:hover::after { width: 100%; }
+    .hdr-right { display: flex; align-items: center; gap: 20px; margin-left: auto; }
+    .hdr-tel {
+      font-size: 13px; font-weight: 500; color: var(--text2);
+      display: flex; align-items: center; gap: 7px; transition: color .2s;
+    }
+    .hdr-tel:hover { color: var(--text); }
+    .hdr-tel svg { width: 14px; height: 14px; stroke: var(--red); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .btn-red {
+      background: var(--red); color: var(--white);
+      padding: 9px 22px; border-radius: 3px;
+      font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+      transition: background .2s, transform .15s; display: inline-block;
+    }
+    .btn-red:hover { background: var(--red-dark); transform: translateY(-1px); }
+    .hdr-burger {
+      display: none; width: 26px; height: 18px;
+      flex-direction: column; justify-content: space-between;
+      cursor: pointer; margin-left: auto;
+    }
+    .hdr-burger span { display: block; height: 1.5px; background: var(--dark); border-radius: 1px; }
+
+    /* ─── MOBILE NAV ─── */
+    .mob-nav {
+      display: none; flex-direction: column;
+      position: fixed; top: 68px; left: 0; right: 0; z-index: 999;
+      background: var(--white); border-bottom: 1px solid var(--border);
+      padding: 16px 40px 24px;
+      transform: translateY(-8px); opacity: 0;
+      transition: .3s ease; pointer-events: none;
+    }
+    .mob-nav.open { transform: translateY(0); opacity: 1; pointer-events: all; }
+    .mob-nav a {
+      font-size: 15px; font-weight: 500; color: var(--text2);
+      padding: 10px 0; border-bottom: 1px solid var(--border);
+      transition: color .2s;
+    }
+    .mob-nav a:hover { color: var(--red); }
+    .mob-nav .btn-red { margin-top: 14px; text-align: center; padding: 11px; }
+
+    /* ─── HERO ─── */
+    #hero {
+      min-height: 100vh; display: grid;
+      grid-template-columns: 1fr 1fr;
+      padding-top: 68px; overflow: hidden;
+      background: var(--bg);
+    }
+    .hero-left {
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 80px 64px 80px 40px;
+      max-width: 640px; margin-left: auto;
+      position: relative;
+    }
+    .hero-left::before {
+      content: ''; position: absolute; left: 0; top: 15%; bottom: 15%;
+      width: 3px; background: var(--red);
+      animation: lineGrowV .8s cubic-bezier(.22,1,.36,1) .3s both;
+    }
+    @keyframes lineGrowV { from{height:0;top:50%} to{height:70%;top:15%} }
+    .hero-kicker {
+      display: flex; align-items: center; gap: 12px; margin-bottom: 28px;
+      opacity: 0; animation: fadeUp .6s ease .4s forwards;
+    }
+    .hero-kicker-line { width: 28px; height: 1.5px; background: var(--red); }
+    .hero-kicker-text {
+      font-family: var(--font-h); font-size: 12px; font-weight: 700;
+      color: var(--red); text-transform: uppercase; letter-spacing: .18em;
+    }
+    .hero-h1 {
+      font-family: var(--font-h); font-size: clamp(44px, 5.5vw, 80px);
+      font-weight: 800; line-height: 1.0; text-transform: uppercase;
+      letter-spacing: .01em; color: var(--dark);
+      margin-bottom: 24px;
+      opacity: 0; animation: fadeUp .8s ease .55s forwards;
+    }
+    .hero-h1 em { color: var(--red); font-style: normal; }
+    .hero-sub {
+      font-size: clamp(15px, 1.4vw, 17px); font-weight: 400;
+      color: var(--text2); line-height: 1.75;
+      margin-bottom: 44px; max-width: 420px;
+      opacity: 0; animation: fadeUp .7s ease .75s forwards;
+    }
+    .hero-btns {
+      display: flex; gap: 12px; flex-wrap: wrap;
+      opacity: 0; animation: fadeUp .7s ease .95s forwards;
+    }
+    .btn-outline-dark {
+      border: 1.5px solid var(--border2); color: var(--text2);
+      padding: 10px 22px; border-radius: 3px;
+      font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+      transition: all .2s; display: inline-block;
+    }
+    .btn-outline-dark:hover { border-color: var(--dark); color: var(--dark); background: var(--bg2); }
+    .hero-stats {
+      display: flex; gap: 36px; margin-top: 56px; padding-top: 40px;
+      border-top: 1px solid var(--border);
+      opacity: 0; animation: fadeUp .6s ease 1.15s forwards;
+    }
+    .hero-stat-num {
+      font-family: var(--font-h); font-size: 36px; font-weight: 800;
+      color: var(--dark); line-height: 1; display: block;
+    }
+    .hero-stat-num em { color: var(--red); font-style: normal; }
+    .hero-stat-label { font-size: 12px; color: var(--text2); margin-top: 4px; letter-spacing: .03em; }
+
+    .hero-right {
+      position: relative; overflow: hidden;
+      animation: slideRight 1s cubic-bezier(.22,1,.36,1) .2s both;
+    }
+    @keyframes slideRight { from{transform:translateX(60px);opacity:0} to{transform:translateX(0);opacity:1} }
+    .hero-right img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform 8s ease; transform: scale(1.05);
+    }
+    .hero-right img.loaded { transform: scale(1); }
+    .hero-right-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to right, var(--bg) 0%, transparent 20%);
+    }
+    .hero-right-badge {
+      position: absolute; bottom: 40px; left: 40px;
+      background: var(--white); padding: 16px 20px;
+      border-left: 3px solid var(--red);
+    }
+    .hero-right-badge strong { font-family: var(--font-h); font-size: 22px; font-weight: 800; color: var(--dark); text-transform: uppercase; display: block; }
+    .hero-right-badge span { font-size: 12px; color: var(--text2); }
+
+    /* ─── USP STRIP ─── */
+    #usps { background: var(--dark); border-top: none; }
+    .usps-inner {
+      max-width: 1320px; margin: 0 auto;
+      display: grid; grid-template-columns: repeat(4, 1fr);
+    }
+    .usp-item {
+      padding: 28px 36px; border-right: 1px solid rgba(255,255,255,.08);
+      display: flex; align-items: center; gap: 16px;
+      opacity: 0; transform: translateY(14px);
+      transition: opacity .5s ease, transform .5s ease, background .2s;
+    }
+    .usp-item.usp-visible { opacity: 1; transform: none; }
+    .usp-item:nth-child(1).usp-visible { transition-delay: 0s; }
+    .usp-item:nth-child(2).usp-visible { transition-delay: .1s; }
+    .usp-item:nth-child(3).usp-visible { transition-delay: .2s; }
+    .usp-item:nth-child(4).usp-visible { transition-delay: .3s; }
+    .usp-item:last-child { border-right: none; }
+    .usp-item:hover { background: rgba(255,255,255,.04); }
+    .usp-icon-wrap {
+      width: 34px; height: 34px; border-radius: 2px;
+      background: rgba(227,6,19,.15); border: 1px solid rgba(227,6,19,.3);
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .usp-icon-wrap svg { width: 16px; height: 16px; stroke: var(--red); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .usp-title { font-family: var(--font-h); font-size: 17px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: #fff; }
+    .usp-desc { font-size: 12px; color: rgba(255,255,255,.45); margin-top: 2px; }
+
+    /* ─── SECTIONS ─── */
+    section { padding: 100px 40px; }
+    .container { max-width: 1320px; margin: 0 auto; }
+    .section-kicker { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+    .section-kicker-line { width: 0; height: 1.5px; background: var(--red); transition: width .5s ease; flex-shrink: 0; }
+    .kicker-visible .section-kicker-line { width: 24px; }
+    .section-kicker-text {
+      font-family: var(--font-h); font-size: 12px; font-weight: 700;
+      color: var(--red); text-transform: uppercase; letter-spacing: .18em;
+    }
+    .section-h2 {
+      font-family: var(--font-h); font-size: clamp(32px, 3.5vw, 52px);
+      font-weight: 800; text-transform: uppercase; line-height: 1.04;
+      letter-spacing: .01em; color: var(--dark);
+    }
+    .section-h2 em { color: var(--red); font-style: normal; }
+    .section-sub { font-size: 16px; color: var(--text2); line-height: 1.75; margin-top: 16px; max-width: 520px; }
+    .section-header { margin-bottom: 60px; }
+
+    /* ─── SERVICES ─── */
+    #services { background: var(--bg2); padding-top: 0; }
+    .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .service-card {
+      background: var(--white); border: 1px solid var(--border); overflow: hidden;
+      transition: box-shadow .3s ease, transform .3s ease;
+    }
+    .service-card:hover { box-shadow: 0 16px 48px rgba(0,0,0,.1); transform: translateY(-4px); }
+    .service-img-wrap { overflow: hidden; aspect-ratio: 16/10; }
+    .service-img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s ease; opacity: .9; }
+    .service-card:hover .service-img { transform: scale(1.05); }
+    .service-body { padding: 28px 28px 32px; position: relative; }
+    .service-body::before {
+      content: ''; position: absolute; top: 0; left: 28px;
+      width: 0; height: 2px; background: var(--red);
+      transition: width .35s ease;
+    }
+    .service-card:hover .service-body::before { width: calc(100% - 56px); }
+    .service-tag {
+      font-size: 10px; font-weight: 700; color: var(--red);
+      text-transform: uppercase; letter-spacing: .14em; margin-bottom: 10px; display: block;
+    }
+    .service-title {
+      font-family: var(--font-h); font-size: 24px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .02em;
+      color: var(--dark); margin-bottom: 12px;
+    }
+    .service-text { font-size: 14px; color: var(--text2); line-height: 1.7; margin-bottom: 22px; }
+    .service-link {
+      font-size: 12px; font-weight: 700; color: var(--red);
+      text-transform: uppercase; letter-spacing: .1em;
+      display: flex; align-items: center; gap: 8px; transition: gap .25s;
+    }
+    .service-link:hover { gap: 14px; }
+
+    /* ─── STATS ─── */
+    #stats { background: var(--bg); padding: 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .stats-grid { max-width: 1320px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); }
+    .stat-item {
+      padding: 56px 40px; text-align: center;
+      border-right: 1px solid var(--border);
+      opacity: 0; transform: translateY(20px);
+      transition: opacity .5s ease, transform .5s ease;
+    }
+    .stat-item.stat-visible { opacity: 1; transform: none; }
+    .stat-item:nth-child(1) { transition-delay: 0s; }
+    .stat-item:nth-child(2) { transition-delay: .1s; }
+    .stat-item:nth-child(3) { transition-delay: .2s; }
+    .stat-item:nth-child(4) { transition-delay: .3s; }
+    .stat-item:last-child { border-right: none; }
+    .stat-item:hover { background: var(--bg2); }
+    .stat-num {
+      font-family: var(--font-h); font-size: clamp(48px, 5vw, 72px);
+      font-weight: 800; color: var(--dark); line-height: 1; display: block; margin-bottom: 8px;
+    }
+    .stat-num em { color: var(--red); font-style: normal; }
+    .stat-label { font-size: 12px; color: var(--text2); text-transform: uppercase; letter-spacing: .1em; font-weight: 500; }
+
+    /* ─── ABOUT ─── */
+    #about { background: var(--white); }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+    .about-img-wrap { position: relative; }
+    .about-img { width: 100%; aspect-ratio: 4/3; object-fit: cover; opacity: 0; transform: scale(1.04); transition: opacity .9s ease, transform 1.1s ease; }
+    .about-img.img-visible { opacity: 1; transform: scale(1); }
+    .about-accent { position: absolute; bottom: -16px; right: -16px; width: 72px; height: 72px; background: var(--red); z-index: -1; }
+    .about-slogan { font-family: var(--font-h); font-size: 26px; font-weight: 700; color: var(--dark); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 24px; display: block; }
+    .about-slogan em { color: var(--red); font-style: normal; }
+    .about-divider { width: 36px; height: 2px; background: var(--red); margin-bottom: 24px; }
+    .about-text p { font-size: 15px; color: var(--text2); line-height: 1.8; margin-bottom: 16px; }
+    .about-text strong { color: var(--dark); font-weight: 600; }
+
+    /* ─── PARTNERS ─── */
+    #partners { background: var(--bg2); padding: 72px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .partners-header { max-width: 1320px; margin: 0 auto 52px; padding: 0 40px; }
+    .partners-track-wrap { overflow: hidden; position: relative; }
+    .partners-track-wrap::before, .partners-track-wrap::after {
+      content: ''; position: absolute; top: 0; bottom: 0; width: 100px; z-index: 2; pointer-events: none;
+    }
+    .partners-track-wrap::before { left: 0; background: linear-gradient(to right, var(--bg2), transparent); }
+    .partners-track-wrap::after  { right: 0; background: linear-gradient(to left, var(--bg2), transparent); }
+    .partners-track {
+      display: flex; gap: 64px; align-items: center;
+      animation: scrollLogos 32s linear infinite; width: max-content; padding: 0 40px;
+    }
+    .partners-track:hover { animation-play-state: paused; }
+    @keyframes scrollLogos { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+    .partner-logo {
+      height: 38px; width: auto; object-fit: contain;
+      filter: grayscale(100%) opacity(.4);
+      transition: filter .35s ease; flex-shrink: 0;
+    }
+    .partner-logo:hover { filter: grayscale(0%) opacity(1); }
+
+    /* ─── LOCATIONS ─── */
+    #locations { background: var(--bg); padding: 0; border-top: 1px solid var(--border); }
+    .locations-grid { display: grid; grid-template-columns: repeat(3, 1fr); }
+    .location-card {
+      padding: 52px 44px; border-right: 1px solid var(--border);
+      position: relative; overflow: hidden;
+      transition: background .25s;
+      opacity: 0; transform: translateY(24px);
+      transition: opacity .6s ease, transform .6s ease, background .25s;
+    }
+    .location-card:last-child { border-right: none; }
+    .location-card:hover { background: var(--bg2); }
+    .location-card.loc-visible { opacity: 1; transform: none; }
+    .location-card:nth-child(1).loc-visible { transition-delay: 0s; }
+    .location-card:nth-child(2).loc-visible { transition-delay: .14s; }
+    .location-card:nth-child(3).loc-visible { transition-delay: .28s; }
+    .location-card::after {
+      content: ''; position: absolute; bottom: 0; left: 44px; right: 44px;
+      height: 0; background: var(--red);
+      transition: height .3s ease;
+    }
+    .location-card:hover::after { height: 2px; }
+    .loc-kicker { font-size: 11px; font-weight: 700; color: var(--red); text-transform: uppercase; letter-spacing: .16em; margin-bottom: 12px; display: block; }
+    .loc-city { font-family: var(--font-h); font-size: 34px; font-weight: 800; text-transform: uppercase; color: var(--dark); margin-bottom: 4px; }
+    .loc-canton { font-size: 13px; color: var(--text2); margin-bottom: 28px; }
+    .loc-details { display: flex; flex-direction: column; gap: 12px; }
+    .loc-detail { display: flex; align-items: center; gap: 12px; font-size: 14px; color: var(--text2); }
+    .loc-detail-icon { width: 16px; flex-shrink: 0; display: flex; align-items: center; }
+    .loc-detail-icon svg { width: 14px; height: 14px; stroke: var(--red); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .loc-detail a { color: var(--text2); transition: color .2s; }
+    .loc-detail a:hover { color: var(--red); }
+    .loc-service { margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: .08em; line-height: 1.8; }
+
+    /* ─── CTA BANNER ─── */
+    #cta { background: var(--bg2); border-top: 1px solid var(--border); }
+    .cta-inner { display: grid; grid-template-columns: 1fr auto; gap: 40px; align-items: center; }
+    .btn-red-lg { background: var(--red); color: var(--white); padding: 15px 36px; border-radius: 3px; font-size: 13px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; display: inline-block; white-space: nowrap; transition: background .2s, transform .15s; }
+    .btn-red-lg:hover { background: var(--red-dark); transform: translateY(-2px); }
+    .cta-btns { display: flex; gap: 12px; flex-direction: column; }
+    .btn-tel { font-size: 13px; font-weight: 600; color: var(--text2); display: flex; align-items: center; gap: 8px; white-space: nowrap; transition: color .2s; }
+    .btn-tel:hover { color: var(--red); }
+    .btn-tel svg { width: 14px; height: 14px; stroke: var(--red); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+    /* ─── CONTACT ─── */
+    #kontakt { background: var(--white); border-top: 1px solid var(--border); }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: 80px; align-items: start; }
+    .contact-details { display: flex; flex-direction: column; gap: 18px; margin-top: 36px; }
+    .contact-detail { display: flex; gap: 14px; align-items: flex-start; }
+    .contact-detail-icon { width: 36px; height: 36px; background: var(--bg2); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: border-color .2s, background .2s; }
+    .contact-detail:hover .contact-detail-icon { border-color: var(--red); background: var(--red-bg); }
+    .contact-detail-icon svg { width: 14px; height: 14px; stroke: var(--red); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .contact-detail-label { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 3px; }
+    .contact-detail-val { font-size: 14px; color: var(--text); font-weight: 500; }
+    .contact-detail-val a { color: var(--text); transition: color .2s; }
+    .contact-detail-val a:hover { color: var(--red); }
+    .form { display: flex; flex-direction: column; gap: 14px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-label { font-size: 11px; font-weight: 600; color: var(--text2); text-transform: uppercase; letter-spacing: .08em; }
+    .form-input { background: var(--bg2); border: 1.5px solid var(--border); color: var(--text); padding: 12px 16px; font-size: 14px; font-family: var(--font-b); outline: none; transition: border-color .2s, background .2s; width: 100%; }
+    .form-input::placeholder { color: var(--text3); }
+    .form-input:focus { border-color: var(--red); background: var(--white); }
+    select.form-input { cursor: pointer; appearance: none; }
+    textarea.form-input { resize: vertical; min-height: 110px; }
+    .form-submit { background: var(--dark); color: var(--white); border: none; padding: 14px; font-size: 13px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; cursor: pointer; width: 100%; font-family: var(--font-b); transition: background .2s; }
+    .form-submit:hover { background: var(--red); }
+    .form-success { display: none; background: #f0fdf4; border: 1px solid #bbf7d0; color: #16a34a; padding: 14px; font-size: 14px; font-weight: 500; text-align: center; }
+
+    /* ─── FOOTER ─── */
+    footer { background: var(--dark); color: rgba(255,255,255,.5); padding: 60px 40px 32px; }
+    .footer-grid { max-width: 1320px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; padding-bottom: 48px; border-bottom: 1px solid rgba(255,255,255,.07); }
+    .footer-logo { margin-bottom: 18px; }
+    .footer-logo img { height: 26px; opacity: .7; }
+    .footer-desc { font-size: 13px; line-height: 1.75; max-width: 240px; }
+    .footer-social { display: flex; gap: 10px; margin-top: 22px; }
+    .footer-social a { width: 32px; height: 32px; border: 1px solid rgba(255,255,255,.12); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: rgba(255,255,255,.4); letter-spacing: .04em; transition: all .2s; }
+    .footer-social a:hover { border-color: var(--red); color: var(--red); }
+    .footer-col-title { font-family: var(--font-h); font-size: 13px; font-weight: 700; color: rgba(255,255,255,.9); text-transform: uppercase; letter-spacing: .1em; margin-bottom: 20px; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-col a { font-size: 13px; color: rgba(255,255,255,.4); transition: color .2s; }
+    .footer-col a:hover { color: var(--red); }
+    .footer-bottom { max-width: 1320px; margin: 26px auto 0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; font-size: 12px; color: rgba(255,255,255,.25); }
+    .footer-legal { display: flex; gap: 22px; }
+    .footer-legal a { color: rgba(255,255,255,.25); transition: color .2s; }
+    .footer-legal a:hover { color: var(--red); }
+
+    /* ─── KEYFRAMES ─── */
+    @keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes scrollPulse { 0%,100%{opacity:.3} 50%{opacity:.8} }
+
+    /* ─── REVEAL ─── */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity .7s ease, transform .7s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+    .stagger-grid > * { opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s ease; }
+    .stagger-grid.visible > *:nth-child(1) { opacity: 1; transform: none; transition-delay: 0s; }
+    .stagger-grid.visible > *:nth-child(2) { opacity: 1; transform: none; transition-delay: .13s; }
+    .stagger-grid.visible > *:nth-child(3) { opacity: 1; transform: none; transition-delay: .26s; }
+
+    /* ─── RESPONSIVE ─── */
+    @media(max-width: 1024px) {
+      #hero { grid-template-columns: 1fr; min-height: auto; }
+      .hero-right { height: 320px; }
+      .hero-left { padding: 60px 32px; max-width: 100%; margin: 0; }
+      .hdr-nav { display: none; }
+      .hdr-burger { display: flex; }
+      .mob-nav { display: flex; }
+      .hdr-right .hdr-tel { display: none; }
+      .about-grid { grid-template-columns: 1fr; gap: 40px; }
+      .about-accent { display: none; }
+      .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+      .cta-inner { grid-template-columns: 1fr; gap: 28px; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media(max-width: 768px) {
+      section { padding: 72px 24px; }
+      #hdr .hdr-inner { padding: 0 24px; }
+      .usps-inner { grid-template-columns: 1fr 1fr; }
+      .usp-item:nth-child(2) { border-right: none; }
+      .usp-item:nth-child(3) { border-top: 1px solid rgba(255,255,255,.08); }
+      .usp-item:nth-child(4) { border-right: none; border-top: 1px solid rgba(255,255,255,.08); }
+      .services-grid { grid-template-columns: 1fr; }
+      .stats-grid { grid-template-columns: 1fr 1fr; }
+      .stat-item:nth-child(2) { border-right: none; }
+      .stat-item:nth-child(3) { border-top: 1px solid var(--border); }
+      .stat-item:nth-child(4) { border-right: none; border-top: 1px solid var(--border); }
+      .locations-grid { grid-template-columns: 1fr; }
+      .location-card { border-right: none; border-bottom: 1px solid var(--border); }
+      .form-row { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══ DESIGN SWITCHER ═══ -->
+<a class="switcher" href="index.html">
+  <span class="switcher-dot"></span>
+  Variante: Dark Premium ansehen
+</a>
+
+
+<!-- ═══ HEADER ═══ -->
+<header id="hdr">
+  <div class="hdr-inner">
+    <a class="hdr-logo" href="#hero"><img src="assets/logo.png" alt="Teca Bau GmbH"></a>
+    <div class="hdr-divider"></div>
+    <nav class="hdr-nav">
+      <a href="#services">Dienstleistungen</a>
+      <a href="#about">Über uns</a>
+      <a href="#partners">Partner</a>
+      <a href="#locations">Standorte</a>
+      <a href="#kontakt">Kontakt</a>
+    </nav>
+    <div class="hdr-right">
+      <a class="hdr-tel" href="tel:+41619222232">
+        <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.23h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.81a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        061 922 22 32
+      </a>
+      <a class="btn-red" href="#kontakt">Offerte anfragen</a>
+      <div class="hdr-burger" id="burger"><span></span><span></span><span></span></div>
+    </div>
+  </div>
+</header>
+
+<nav class="mob-nav" id="mobNav">
+  <a href="#services">Dienstleistungen</a>
+  <a href="#about">Über uns</a>
+  <a href="#partners">Partner</a>
+  <a href="#locations">Standorte</a>
+  <a href="#kontakt">Kontakt</a>
+  <a href="tel:+41619222232" style="color:var(--red);font-weight:600;">061 922 22 32</a>
+  <a class="btn-red" href="#kontakt">Offerte anfragen</a>
+</nav>
+
+
+<!-- ═══ HERO ═══ -->
+<section id="hero">
+  <div class="hero-left">
+    <div class="hero-kicker">
+      <div class="hero-kicker-line"></div>
+      <span class="hero-kicker-text">Bau fürs Leben</span>
+    </div>
+    <h1 class="hero-h1">
+      Ihr Fachbetrieb<br>
+      für <em>Küchendesign,</em><br>
+      Türtechnik &amp;<br>
+      Innenausbau
+    </h1>
+    <p class="hero-sub">
+      Massgeschneiderte Lösungen für Ihr Zuhause und Ihr Gewerbe –
+      an drei Standorten in der Schweiz.
+    </p>
+    <div class="hero-btns">
+      <a class="btn-red" href="#kontakt">Offerte anfragen</a>
+      <a class="btn-outline-dark" href="#services">Dienstleistungen</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <span class="hero-stat-num">150<em>+</em></span>
+        <div class="hero-stat-label">Projekte</div>
+      </div>
+      <div>
+        <span class="hero-stat-num">13</span>
+        <div class="hero-stat-label">Partner</div>
+      </div>
+      <div>
+        <span class="hero-stat-num">3</span>
+        <div class="hero-stat-label">Standorte</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <img src="assets/service-kueche.jpg" alt="Teca Bau – Küchendesign" id="heroImg">
+    <div class="hero-right-overlay"></div>
+    <div class="hero-right-badge">
+      <strong>Seit 2019</strong>
+      <span>Ihr Schweizer Fachbetrieb</span>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ USP STRIP ═══ -->
+<div id="usps">
+  <div class="usps-inner">
+    <div class="usp-item">
+      <div class="usp-icon-wrap"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
+      <div><div class="usp-title">Massarbeit</div><div class="usp-desc">Jedes Projekt individuell</div></div>
+    </div>
+    <div class="usp-item">
+      <div class="usp-icon-wrap"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+      <div><div class="usp-title">3 Standorte</div><div class="usp-desc">Lausen · Steinhausen · Rain</div></div>
+    </div>
+    <div class="usp-item">
+      <div class="usp-icon-wrap"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+      <div><div class="usp-title">13 Partner</div><div class="usp-desc">Miele, Siemens, V-Zug &amp; mehr</div></div>
+    </div>
+    <div class="usp-item">
+      <div class="usp-icon-wrap"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+      <div><div class="usp-title">Seit 2019</div><div class="usp-desc">Erfahrung &amp; Qualität</div></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══ SERVICES ═══ -->
+<section id="services" style="padding-top:80px;">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-kicker"><div class="section-kicker-line"></div><span class="section-kicker-text">Was wir machen</span></div>
+      <h2 class="section-h2">Unsere <em>Dienstleistungen</em></h2>
+      <p class="section-sub">Von der ersten Idee bis zur schlüsselfertigen Übergabe.</p>
+    </div>
+    <div class="services-grid stagger-grid">
+      <div class="service-card">
+        <div class="service-img-wrap"><img class="service-img" src="assets/service-kueche.jpg" alt="Küchendesign"></div>
+        <div class="service-body">
+          <span class="service-tag">01 / Küchendesign</span>
+          <h3 class="service-title">Küchendesign</h3>
+          <p class="service-text">Ihre Traumküche nach Mass – von der Beratung bis zur Montage, mit Materialien führender Hersteller.</p>
+          <a class="service-link" href="#kontakt">Beratung anfragen &#8594;</a>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="service-img-wrap"><img class="service-img" src="assets/service-tuer.jpg" alt="Türtechnik"></div>
+        <div class="service-body">
+          <span class="service-tag">02 / Türtechnik</span>
+          <h3 class="service-title">Tür- &amp; Zutrittstechnik</h3>
+          <p class="service-text">Brandschutz, Zutrittssysteme und Türlösungen für Wohn- und Gewerbebauten – aus einer Hand.</p>
+          <a class="service-link" href="#kontakt">Beratung anfragen &#8594;</a>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="service-img-wrap"><img class="service-img" src="assets/service-innenausbau.jpg" alt="Innenausbau"></div>
+        <div class="service-body">
+          <span class="service-tag">03 / Innenausbau</span>
+          <h3 class="service-title">Innenausbau &amp; Systembau</h3>
+          <p class="service-text">Einbauschränke, Badmöbel, Treppen, Trennwände – massgenau und mit höchstem Qualitätsanspruch.</p>
+          <a class="service-link" href="#kontakt">Beratung anfragen &#8594;</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ STATS ═══ -->
+<div id="stats">
+  <div class="stats-grid">
+    <div class="stat-item"><span class="stat-num" data-target="150" data-suffix="+">0</span><span class="stat-label">Projekte</span></div>
+    <div class="stat-item"><span class="stat-num" data-target="13">0</span><span class="stat-label">Partner</span></div>
+    <div class="stat-item"><span class="stat-num" data-target="3">0</span><span class="stat-label">Standorte</span></div>
+    <div class="stat-item"><span class="stat-num" data-target="7">0</span><span class="stat-label">Jahre Erfahrung</span></div>
+  </div>
+</div>
+
+
+<!-- ═══ ABOUT ═══ -->
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-img-wrap reveal">
+        <img class="about-img" src="assets/header-bg.jpg" alt="Teca Bau GmbH">
+        <div class="about-accent"></div>
+      </div>
+      <div class="reveal">
+        <div class="section-kicker"><div class="section-kicker-line"></div><span class="section-kicker-text">Über uns</span></div>
+        <span class="about-slogan">"Bau fürs <em>Leben!</em>"</span>
+        <div class="about-divider"></div>
+        <h2 class="section-h2" style="font-size:clamp(26px,2.8vw,40px);margin-bottom:24px;">Ihr verlässlicher<br><em>Partner</em> im Innenausbau</h2>
+        <div class="about-text">
+          <p>Seit der Gründung der <strong>Teca Bau GmbH</strong> stehen handwerkliche Exzellenz und persönliche Kundenbetreuung im Mittelpunkt unserer Arbeit.</p>
+          <p>Geführt von <strong>Sabri Haxhiu</strong> vereinen wir traditionelles Handwerkswissen mit modernen Techniken – von der Küche über die Eingangstür bis zum massgeschneiderten Einbauschrank.</p>
+          <p>Ob privater Umbau, gewerblicher Ausbau oder komplexes Systembau-Projekt: Wir begleiten Sie kompetent von der Planung bis zur Fertigstellung.</p>
+        </div>
+        <div style="margin-top:32px;"><a class="btn-red" href="#kontakt">Unverbindlich beraten lassen</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ PARTNERS ═══ -->
+<div id="partners">
+  <div class="partners-header reveal">
+    <div class="section-kicker"><div class="section-kicker-line"></div><span class="section-kicker-text">Partnerschaften</span></div>
+    <h2 class="section-h2">Gemeinsam sind wir <em>stark</em></h2>
+  </div>
+  <div class="partners-track-wrap">
+    <div class="partners-track">
+      <img class="partner-logo" src="assets/partners/TEC_Logo_Miele_V20200916.png" alt="Miele">
+      <img class="partner-logo" src="assets/partners/TEC_Logo_Siemens_V20200916.png" alt="Siemens">
+      <img class="partner-logo" src="assets/partners/TEC_Logo_VZug_V20200916.png" alt="V-Zug">
+      <img class="partner-logo" src="assets/partners/TEC_Logo_Bauknecht_V20200916.png" alt="Bauknecht">
+      <img class="partner-logo" src="assets/partners/TEC_Logo_Elektrolux_V20200915.png" alt="Electrolux">
+      <img class="partner-logo" src="assets/partners/TEC_Logo_Impuls-Kuechen_V20200916.png" alt="Impuls Küchen">
+      <img class="partner-logo" src="assets/partners/TEC_LogoKoch_V20201001.jpg" alt="Koch Küchen">
+      <img class="partner-logo" src="assets/partners/TEC_Logo_Jeld%20Wen_V20211014.png" alt="Jeld-Wen">
+      <img class="partner-logo" src="assets/partners/TEC_Logo_Moralt_V20211014.png" alt="Moralt">
+      <img class="partner-logo" src="assets/partners/TEC_Logo_OpoOeschger_V20200916.png" alt="Opo Oeschger">
+      <img class="partner-logo" src="assets/partners/TEC_Logo_Palma_V20200916.png" alt="Palma">
+      <img class="partner-logo" src="assets/partners/TEC_Logo_Protec_V20211014.png" alt="Protec">
+      <img class="partner-logo" src="assets/partners/TEC_Logo_Renz_V20211014.png" alt="Renz">
+      <img class="partner-logo" src="assets/partners/TEC_Logo_kuratle%20jaecker_V20211014.png" alt="Kuratle + Jaecker">
+      <img class="partner-logo" src="assets/partners/TEC_Logo_Miele_V20200916.png" alt="Miele">
+      <img class="partner-logo" src="assets/partners/TEC_Logo_Siemens_V20200916.png" alt="Siemens">
+      <img class="partner-logo" src="assets/partners/TEC_Logo_VZug_V20200916.png" alt="V-Zug">
+      <img class="partner-logo" src="assets/partners/TEC_Logo_Bauknecht_V20200916.png" alt="Bauknecht">
+      <img class="partner-logo" src="assets/partners/TEC_Logo_Elektrolux_V20200915.png" alt="Electrolux">
+      <img class="partner-logo" src="assets/partners/TEC_Logo_Impuls-Kuechen_V20200916.png" alt="Impuls Küchen">
+      <img class="partner-logo" src="assets/partners/TEC_LogoKoch_V20201001.jpg" alt="Koch">
+      <img class="partner-logo" src="assets/partners/TEC_Logo_Jeld%20Wen_V20211014.png" alt="Jeld-Wen">
+      <img class="partner-logo" src="assets/partners/TEC_Logo_Moralt_V20211014.png" alt="Moralt">
+      <img class="partner-logo" src="assets/partners/TEC_Logo_OpoOeschger_V20200916.png" alt="Opo Oeschger">
+      <img class="partner-logo" src="assets/partners/TEC_Logo_Palma_V20200916.png" alt="Palma">
+      <img class="partner-logo" src="assets/partners/TEC_Logo_Protec_V20211014.png" alt="Protec">
+      <img class="partner-logo" src="assets/partners/TEC_Logo_Renz_V20211014.png" alt="Renz">
+      <img class="partner-logo" src="assets/partners/TEC_Logo_kuratle%20jaecker_V20211014.png" alt="Kuratle + Jaecker">
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══ LOCATIONS ═══ -->
+<section id="locations" style="padding:0; border-top:1px solid var(--border);">
+  <div class="locations-grid">
+    <div class="location-card">
+      <span class="loc-kicker">Standort 01</span>
+      <div class="loc-city">Lausen</div>
+      <div class="loc-canton">Kanton Baselland</div>
+      <div class="loc-details">
+        <div class="loc-detail"><div class="loc-detail-icon"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div><span>Hauptstrasse 36, 4415 Lausen</span></div>
+        <div class="loc-detail"><div class="loc-detail-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.23h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.81a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div><a href="tel:+41619222232">061 922 22 32</a></div>
+        <div class="loc-detail"><div class="loc-detail-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div><a href="mailto:info@teca.swiss">info@teca.swiss</a></div>
+      </div>
+      <div class="loc-service">Servicegebiet: Baselland · Basel-Stadt · Solothurn</div>
+    </div>
+    <div class="location-card">
+      <span class="loc-kicker">Standort 02</span>
+      <div class="loc-city">Steinhausen</div>
+      <div class="loc-canton">Kanton Zug</div>
+      <div class="loc-details">
+        <div class="loc-detail"><div class="loc-detail-icon"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div><span>Hinterbergstrasse 24, 6312 Steinhausen</span></div>
+        <div class="loc-detail"><div class="loc-detail-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.23h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.81a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div><a href="tel:+41619222232">061 922 22 32</a></div>
+        <div class="loc-detail"><div class="loc-detail-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div><a href="mailto:info@teca.swiss">info@teca.swiss</a></div>
+      </div>
+      <div class="loc-service">Servicegebiet: Zug · Zürich · Luzern · Schwyz</div>
+    </div>
+    <div class="location-card">
+      <span class="loc-kicker">Standort 03 – Neu</span>
+      <div class="loc-city">Rain</div>
+      <div class="loc-canton">Kanton Luzern</div>
+      <div class="loc-details">
+        <div class="loc-detail"><div class="loc-detail-icon"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div><span>[Adresse folgt] – Rain, LU</span></div>
+        <div class="loc-detail"><div class="loc-detail-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.23h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.81a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div><a href="tel:+41619222232">061 922 22 32</a></div>
+        <div class="loc-detail"><div class="loc-detail-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div><a href="mailto:info@teca.swiss">info@teca.swiss</a></div>
+      </div>
+      <div class="loc-service">Servicegebiet: Luzern · Aargau · Zentralschweiz</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ CTA ═══ -->
+<section id="cta">
+  <div class="container">
+    <div class="cta-inner reveal">
+      <div>
+        <div class="section-kicker"><div class="section-kicker-line"></div><span class="section-kicker-text">Jetzt starten</span></div>
+        <h2 class="section-h2" style="margin-bottom:16px;">Bereit für Ihr nächstes <em>Projekt?</em></h2>
+        <p class="section-sub" style="margin-top:0;">Unverbindliche Beratung – wir melden uns innerhalb von 24 Stunden.</p>
+      </div>
+      <div class="cta-btns">
+        <a class="btn-red-lg" href="#kontakt">Kontakt aufnehmen</a>
+        <a class="btn-tel" href="tel:+41619222232">
+          <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.23h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.81a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          061 922 22 32
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ CONTACT ═══ -->
+<section id="kontakt">
+  <div class="container">
+    <div class="contact-grid">
+      <div class="reveal">
+        <div class="section-kicker"><div class="section-kicker-line"></div><span class="section-kicker-text">Kontakt</span></div>
+        <h2 class="section-h2" style="font-size:clamp(28px,2.8vw,44px);margin-bottom:16px;">Schreiben Sie <em>uns</em></h2>
+        <p style="font-size:15px;color:var(--text2);line-height:1.75;max-width:340px;">Hinterlassen Sie uns eine Nachricht für ein unverbindliches Beratungsgespräch.</p>
+        <div class="contact-details">
+          <div class="contact-detail"><div class="contact-detail-icon"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div><div><div class="contact-detail-label">Hauptstandort</div><div class="contact-detail-val">Hauptstrasse 36, 4415 Lausen</div></div></div>
+          <div class="contact-detail"><div class="contact-detail-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.23h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.81a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div><div><div class="contact-detail-label">Telefon</div><div class="contact-detail-val"><a href="tel:+41619222232">061 922 22 32</a></div></div></div>
+          <div class="contact-detail"><div class="contact-detail-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div><div><div class="contact-detail-label">E-Mail</div><div class="contact-detail-val"><a href="mailto:info@teca.swiss">info@teca.swiss</a></div></div></div>
+        </div>
+      </div>
+      <div class="reveal">
+        <form class="form" id="contactForm" onsubmit="submitForm(event)">
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">Name *</label><input class="form-input" type="text" required placeholder="Max Mustermann"></div>
+            <div class="form-group"><label class="form-label">Telefon</label><input class="form-input" type="tel" placeholder="+41 61 ..."></div>
+          </div>
+          <div class="form-group"><label class="form-label">E-Mail *</label><input class="form-input" type="email" required placeholder="name@beispiel.ch"></div>
+          <div class="form-group"><label class="form-label">Ich interessiere mich für</label>
+            <select class="form-input"><option>Küchendesign</option><option>Tür- &amp; Zutrittstechnik</option><option>Innenausbau &amp; Systembau</option><option>Anderes</option></select>
+          </div>
+          <div class="form-group"><label class="form-label">Nachricht *</label><textarea class="form-input" required placeholder="Beschreiben Sie kurz Ihr Projekt..."></textarea></div>
+          <button class="form-submit" type="submit">Nachricht absenden &#8594;</button>
+          <div class="form-success" id="formSuccess">Vielen Dank — wir melden uns bald bei Ihnen.</div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-logo"><img src="assets/logo.png" alt="Teca Bau GmbH"></div>
+      <p class="footer-desc">Ihr Fachbetrieb für Küchendesign, Tür- &amp; Zutrittstechnik und Innenausbau – an drei Standorten in der Schweiz.</p>
+      <div class="footer-social">
+        <a href="https://www.instagram.com/teca_bau/" target="_blank">IG</a>
+        <a href="https://www.facebook.com/Schreinerfachbetrieb" target="_blank">FB</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Dienstleistungen</div>
+      <ul><li><a href="#services">Küchendesign</a></li><li><a href="#services">Tür- &amp; Zutrittstechnik</a></li><li><a href="#services">Innenausbau &amp; Systembau</a></li><li><a href="#kontakt">Offerte anfragen</a></li></ul>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Unternehmen</div>
+      <ul><li><a href="#about">Über uns</a></li><li><a href="#partners">Partner</a></li><li><a href="#locations">Standorte</a></li><li><a href="#kontakt">Karriere</a></li></ul>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Kontakt</div>
+      <ul><li><a href="tel:+41619222232">061 922 22 32</a></li><li><a href="mailto:info@teca.swiss">info@teca.swiss</a></li><li><a href="#locations">Lausen (BL)</a></li><li><a href="#locations">Steinhausen (ZG)</a></li><li><a href="#locations">Rain (LU)</a></li></ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>&copy; 2026 Teca Bau GmbH &mdash; Alle Rechte vorbehalten</span>
+    <div class="footer-legal"><a href="#">AGB</a><a href="#">Impressum</a><a href="#">Datenschutz</a></div>
+  </div>
+</footer>
+
+
+<script>
+  const hdr = document.getElementById('hdr');
+  window.addEventListener('scroll', () => hdr.classList.toggle('solid', scrollY > 60), { passive: true });
+
+  const heroImg = document.getElementById('heroImg');
+  if (heroImg.complete) heroImg.classList.add('loaded');
+  else heroImg.addEventListener('load', () => heroImg.classList.add('loaded'));
+
+  const burger = document.getElementById('burger');
+  const mobNav = document.getElementById('mobNav');
+  burger.addEventListener('click', () => mobNav.classList.toggle('open'));
+  mobNav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mobNav.classList.remove('open')));
+
+  const revObs = new IntersectionObserver(e => e.forEach(x => { if (x.isIntersecting) { x.target.classList.add('visible'); revObs.unobserve(x.target); } }), { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => revObs.observe(el));
+
+  const sgObs = new IntersectionObserver(e => e.forEach(x => { if (x.isIntersecting) { x.target.classList.add('visible'); sgObs.unobserve(x.target); } }), { threshold: 0.1 });
+  document.querySelectorAll('.stagger-grid').forEach(el => sgObs.observe(el));
+
+  const kickObs = new IntersectionObserver(e => e.forEach(x => { if (x.isIntersecting) { x.target.closest('.section-kicker')?.classList.add('kicker-visible'); kickObs.unobserve(x.target); } }), { threshold: 1 });
+  document.querySelectorAll('.section-kicker-line').forEach(el => kickObs.observe(el));
+
+  const uspObs = new IntersectionObserver(e => e.forEach(x => { if (x.isIntersecting) { x.target.classList.add('usp-visible'); uspObs.unobserve(x.target); } }), { threshold: 0.2 });
+  document.querySelectorAll('.usp-item').forEach(el => uspObs.observe(el));
+
+  const statObs = new IntersectionObserver(e => e.forEach(x => { if (x.isIntersecting) { x.target.classList.add('stat-visible'); statObs.unobserve(x.target); } }), { threshold: 0.2 });
+  document.querySelectorAll('.stat-item').forEach(el => statObs.observe(el));
+
+  const locObs = new IntersectionObserver(e => e.forEach(x => { if (x.isIntersecting) { x.target.classList.add('loc-visible'); locObs.unobserve(x.target); } }), { threshold: 0.12 });
+  document.querySelectorAll('.location-card').forEach(el => locObs.observe(el));
+
+  const imgObs = new IntersectionObserver(e => e.forEach(x => { if (x.isIntersecting) { x.target.classList.add('img-visible'); imgObs.unobserve(x.target); } }), { threshold: 0.15 });
+  document.querySelectorAll('.about-img').forEach(el => imgObs.observe(el));
+
+  const cntObs = new IntersectionObserver(e => {
+    e.forEach(x => {
+      if (!x.isIntersecting) return;
+      const el = x.target, target = +el.dataset.target, suffix = el.dataset.suffix || '';
+      let start = null;
+      const step = ts => {
+        if (!start) start = ts;
+        const p = Math.min((ts - start) / 1800, 1);
+        el.textContent = Math.floor((1 - Math.pow(1 - p, 4)) * target) + suffix;
+        if (p < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+      cntObs.unobserve(el);
+    });
+  }, { threshold: 0.5 });
+  document.querySelectorAll('[data-target]').forEach(el => cntObs.observe(el));
+
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const t = document.querySelector(a.getAttribute('href'));
+      if (t) { e.preventDefault(); window.scrollTo({ top: t.offsetTop - 68, behavior: 'smooth' }); }
+    });
+  });
+
+  function submitForm(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('.form-submit');
+    btn.textContent = 'Wird gesendet...'; btn.disabled = true;
+    setTimeout(() => {
+      e.target.querySelectorAll('input,textarea,select,button').forEach(f => f.disabled = true);
+      document.getElementById('formSuccess').style.display = 'block';
+      btn.style.display = 'none';
+    }, 900);
+  }
+</script>
+</body>
+</html>
